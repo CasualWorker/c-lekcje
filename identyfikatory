@@ -1,0 +1,222 @@
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+string liczba="";
+string kopia="";
+string ciag="";
+string id="";
+int suma=0;
+int czy=0;
+int dane=0;
+int sumy[200]={};
+string cyfry[200][3]={};
+string litery[200][6]={};
+string wynik1[200][2]={};
+string odp1="";
+int x, y, z=0;
+
+int zamien(string kopia){
+    for(int i=0; i<3; i++){  //konwert litery
+        litery[x][i]=kopia[i];
+        id+=litery[x][i];
+    }
+    //cout<<id;
+    for(int i=3; i<10; i++){  //konwert cyfry
+        cyfry[x][i]=kopia[i];
+        ciag+=cyfry[x][i];
+    }
+    dane=stoi(ciag);  //zamiana string na int
+    //cout<<dane;
+    for(int i=0; i<6; i++){
+        int czynniki=dane%10;
+        dane=dane/10;
+        suma+=czynniki;
+        czynniki=0;         //obliczanie sumy cyfr
+    }
+    //cout<<" "<<suma<<endl;
+    sumy[x]=suma;
+    wynik1[x][0]=id;            //szukanie palindromów z liter
+    wynik1[x][1]=ciag;
+
+    string znak=litery[x][0];
+    if(znak==litery[x][2]){
+        y=x;
+        //cout<<wynik1[y][0]<<wynik1[y][1]<<endl;
+    }
+
+    int p=0;
+
+    for(int i=3; i<6; i++){
+        int z1=kopia[i];
+        int neg=11;         //szukanie palindromów z cyfr
+        if(z1==kopia[neg-i]){
+            p++;
+            if(p>2){
+                //cout<<wynik1[x][0]<<wynik1[x][1]<<endl;
+            }
+        }
+    }
+    p=0;
+    ciag="";
+    dane=0;
+    suma=0;
+    id="";
+    return 0;
+}
+
+int znajdz(){
+    cout<<"zad1:"<<endl;
+    int numer=0;
+    for(int i=0; i<200;i++){
+        if(czy<sumy[i]){
+            czy=sumy[i];
+        }
+    }
+    for(int i=0; i<200;i++){
+        if(czy==sumy[i]){
+            numer=i;
+            cout<<wynik1[numer][0]<<wynik1[numer][1]<<endl;
+        }
+    }
+    return 0;
+}
+
+int poprawnosc(string kopia){
+    string chwilowa[200][5]={};
+    string dozmiany="";
+    int odwrotna=0;
+    int kontrolne[200][9]={};
+    int wynik2[200][9]={};
+    int suma=0;
+
+    for(int i=0; i<9; i++){
+        if(i<4){
+            switch(kopia[i])  {
+                case 'A':
+                    kontrolne[x][i]=10;
+                    break;
+                case 'B':
+                    kontrolne[x][i]=11;
+                    break;
+                case 'C':
+                    kontrolne[x][i]=12;
+                    break;
+                case 'D':
+                    kontrolne[x][i]=13;
+                    break;
+                case 'E':
+                    kontrolne[x][i]=14;
+                    break;
+                case 'F':
+                    kontrolne[x][i]=15;
+                    break;
+                case 'G':
+                    kontrolne[x][i]=16;
+                    break;
+                case 'H':
+                    kontrolne[x][i]=17;
+                    break;
+                case 'I':
+                    kontrolne[x][i]=18;
+                    break;
+                case 'J':
+                    kontrolne[x][i]=19;
+                    break;
+                case 'K':
+                    kontrolne[x][i]=20;
+                    break;
+                case 'L':
+                    kontrolne[x][i]=21;
+                    break;
+                case 'M':
+                    kontrolne[x][i]=22;
+                    break;
+                case 'N':
+                    kontrolne[x][i]=23;
+                    break;
+                case 'O':
+                    kontrolne[x][i]=24;
+                    break;
+                case 'P':
+                    kontrolne[x][i]=25;
+                    break;
+                case 'Q':
+                    kontrolne[x][i]=26;
+                    break;
+                case 'R':
+                    kontrolne[x][i]=27;
+                    break;
+                case 'S':
+                    kontrolne[x][i]=28;
+                    break;
+                case 'T':
+                    kontrolne[x][i]=29;
+                    break;
+                case 'U':
+                    kontrolne[x][i]=30;
+                    break;
+                case 'V':
+                    kontrolne[x][i]=31;
+                    break;
+                case 'W':
+                    kontrolne[x][i]=32;
+                    break;
+                case 'X':
+                    kontrolne[x][i]=33;
+                    break;
+                case 'Y':
+                    kontrolne[x][i]=34;
+                    break;
+                case 'z':
+                    kontrolne[x][i]=35;
+                    break;
+            }
+        }else if(i>3){
+            chwilowa[x][i]=kopia[i];
+            dozmiany+=chwilowa[x][i];
+            odwrotna=stoi(dozmiany);
+            kontrolne[x][i]=odwrotna%10;
+            odwrotna/=10;
+        }else if(i==3){
+            kontrolne[x][i]=0;
+        }
+    }
+
+    for(int i=0; i<9; i++){
+        if(i==0 or i==4 or i==7){
+            wynik2[x][i]=kontrolne[x][i]*7;
+        }else if(i==1 or i==5 or i==8){
+            wynik2[x][i]=kontrolne[x][i]*3;
+        }else if(i==2 or i==6){
+            wynik2[x][i]=kontrolne[x][i]*1;
+        }else{
+            wynik2[x][i]=0;
+        }
+    }
+
+    for(int i=0; i<9; i++){
+        suma+=wynik2[x][i];
+    }
+
+    int wynik=suma%10;
+
+    if(wynik==kopia[3]){
+        cout<<wynik<<endl;
+    }
+}
+
+int main(){
+    ifstream MyFile("C:/Users/bhols/Desktop/DANE/identyfikator.txt");
+    while(getline(MyFile, liczba)){
+        kopia=liczba;
+        zamien(kopia);
+        poprawnosc(kopia);
+        x++;
+    }
+    znajdz();
+    return 0;
+}
